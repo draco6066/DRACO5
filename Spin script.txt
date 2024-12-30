@@ -1,0 +1,40 @@
+-- سكربت لروبلوكس - الدوران بشخصيتك
+-- يعمل على محرك Delta
+
+-- إنشاء واجهة المستخدم (الزر)
+local ScreenGui = Instance.new("ScreenGui")
+local ToggleButton = Instance.new("TextButton")
+
+-- إعدادات الـ GUI
+ScreenGui.Parent = game.CoreGui
+ToggleButton.Parent = ScreenGui
+ToggleButton.Text = "تشغيل/إطفاء"
+ToggleButton.Size = UDim2.new(0, 150, 0, 50)
+ToggleButton.Position = UDim2.new(0.5, -75, 0.9, 0)
+ToggleButton.BackgroundColor3 = Color3.new(0, 0, 0) -- لون الزر أسود
+ToggleButton.TextColor3 = Color3.new(1, 1, 1) -- لون النص أبيض
+ToggleButton.Font = Enum.Font.SourceSansBold
+ToggleButton.TextSize = 20
+
+-- إعداد الدوران
+local spinning = false
+local speed = 30
+local character = game.Players.LocalPlayer.Character or game.Players.LocalPlayer.CharacterAdded:Wait()
+
+ToggleButton.MouseButton1Click:Connect(function()
+    spinning = not spinning -- تبديل حالة الدوران
+    
+    if spinning then
+        ToggleButton.Text = "إطفاء"
+        -- بدء الدوران
+        while spinning do
+            if character and character:FindFirstChild("HumanoidRootPart") then
+                character.HumanoidRootPart.CFrame = character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(speed), 0)
+            end
+            wait()
+        end
+    else
+        ToggleButton.Text = "تشغيل"
+        -- إيقاف الدوران
+    end
+end)
